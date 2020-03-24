@@ -1,13 +1,13 @@
 // Supported fonts (to be expanded with other lightweight libs)
-const Fonts = Object.freeze({
+const Font = Object.freeze({
   Fluid: 'fluidr3_gm',
 });
-export default Fonts;
+export default Font;
 
 // Instrument names for supported fonts
 export const getInstrumentNames = (font) => {
   switch (font) {
-    case Fonts.Fluid:
+    case Font.Fluid:
       return [
         'accordion',
         'acoustic_bass',

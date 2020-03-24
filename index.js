@@ -1,17 +1,8 @@
-// import { NativeModules } from 'react-native';
-
-// const { Soundfont } = NativeModules;
-
-// export default Soundfont;
-
 import allSettled from 'promise.allsettled';
 import Sound from 'react-native-sound';
 
-import Fonts, {getInstrumentNames} from './fonts';
+import Font, {getInstrumentNames} from './font';
 import Player from './Player';
-
-const defaultFont = Fonts.Fluid;
-const defaultInstrument = 'acoustic_grand_piano';
 
 // List of possible notes for soundfonts
 const _notes = [ 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G' ];
@@ -24,10 +15,18 @@ _notes.forEach(note => {
   }
 });
 
+// Default to Fluid's piano with sensible options
+const defaultFont = Font.Fluid;
+const defaultInstrument = 'acoustic_grand_piano';
+const defaultInstrumentOptions = Object.freeze({
+  font: defaultFont,
+  notes: _notesWithOctaves
+});
+
 Sound.setCategory('Playback');
 
 // This function is outside of 'Player' so as to not be exposed
-const loadSound = (sounds, font = defaultFont, instrument = defaultInstrument, name, options) => {
+const loadSound = (sounds, font = defaultFont, instrument = defaultInstrument, name) => {
   return new Promise((resolve, reject) => {
     // 'new Sound' is very expensive and blocks resolve. Wrapping in setTimeout(cb, 0) allows renders in between
     setTimeout(() => {
@@ -46,16 +45,16 @@ const loadSound = (sounds, font = defaultFont, instrument = defaultInstrument, n
 };
 
 export default {
-  fonts: Fonts,
+  Font,
   getInstrumentNames: (font = defaultFont) => {
     return getInstrumentNames(font);
   },
-  instrument: (name = defaultInstrument, options = {}) => {
+  instrument: (name = defaultInstrument, options = defaultInstrumentOptions) => {
     const sounds = {};
-    const notes = options.notes || _notesWithOctaves;
+    const { font, notes, ...playerOptions } = options; 
     return allSettled(
-      notes.map(note => loadSound(sounds, options.font, name, note))
-    ).then(() => new Player(name, sounds));
+      notes.map(note => loadSound(sounds, font, name, note))
+    ).then(() => new Player(name, sounds, playerOptions));
   },
 };
 
