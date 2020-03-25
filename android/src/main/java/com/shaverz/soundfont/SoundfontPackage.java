@@ -1,4 +1,4 @@
-package com.shaverz;
+package com.shaverz.soundfont;
 
 import java.util.Arrays;
 import java.util.Collections;

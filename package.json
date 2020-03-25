@@ -1,8 +1,8 @@
 {
   "name": "react-native-soundfont",
   "title": "React Native Soundfont Player",
-  "version": "1.0.0",
-  "description": "A simple soundfont player for React-Native",
+  "version": "0.0.1",
+  "description": "A simple soundfont player for React Native",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,10 @@
     "baseUrl": "https://github.com/ShavaShav/react-native-soundfont"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "keyboard",
+    "midi",
+    "soundfont"
   ],
   "author": {
     "name": "Zach Shaver",
