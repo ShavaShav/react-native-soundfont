@@ -2,7 +2,7 @@
 
 ## Getting started
 
-`$ npm install ShavaShav/react-native-soundfont react-native-sound --save`
+`$ npm install react-native-soundfont react-native-sound --save`
 
 ## Usage
 
