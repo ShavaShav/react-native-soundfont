@@ -1,11 +1,11 @@
 {
   "name": "react-native-soundfont",
   "title": "React Native Soundfont Player",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "A simple soundfont player for React Native",
   "main": "index.js",
   "scripts": {
-    "preinstall": "sh preinstall.sh",
+    "preinstall": "bash preinstall.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

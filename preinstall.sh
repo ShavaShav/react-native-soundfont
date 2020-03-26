@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -d "./android/src/main/res/raw" ]; then 
     node ./unpackSounds.js
