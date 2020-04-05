@@ -1,5 +1,7 @@
 # react-native-soundfont
 
+[![NPM](https://nodei.co/npm/react-native-soundfont.png?compact=true)](https://nodei.co/npm/react-native-soundfont/)
+
 ## Getting started
 
 `$ npm install react-native-soundfont react-native-sound --save`
@@ -10,10 +12,7 @@
 import SoundFont from 'react-native-soundfont';
 
 ...
-const Font = SoundFont.Font; // Enum of possible fonts
-const instrumentNames = SoundFont.getInstrumentNames(Font.Fluid); // Array of instrument names for FluidR3_GM font
-SoundFont.instrument('violin', {
-  font: Font.Fluid,
+SoundFont.instrument('fluidr3_gm', 'violin', {
   notes: ['C4', 'A3'] // only load 'C4' and 'A3' for speed
   gain: 1,
 }).then(violin => {
@@ -25,16 +24,7 @@ SoundFont.instrument('violin', {
 ...
 ```
 
-[Fluid (the only installed soundfont by default) instrument names can be found here.](https://gleitz.github.io/midi-js-soundfonts/FluidR3_GM/names.json)
-
-Font will default to `SoundFont.fonts.Fluid` and Instrument to `"acoustic_grand_piano"` if undefined.
-For example, the following one liner will play 'C4' with the Fluid piano once it is loaded
-
-```javascript
-SoundFont.instrument().then(sound => sound.play('C4'));
-```
-
-`instrument(name, options)`, `play(note, options)` and `start(note, when, options)` all take the following possible `options` as their last argument:
+`instrument(font, instrument, options)`, `play(note, options)` and `start(note, when, options)` all take the following possible `options` as their last argument:
 ```javascript
 {
   gain: 1, // (volume)
@@ -45,6 +35,16 @@ SoundFont.instrument().then(sound => sound.play('C4'));
   speed: 1 // speed of playback
 }
 ```
+
+### Installing fonts
+
+MP3 sounds should be placed in `android/app/src/main/res/raw`, with filenames in the format:
+
+`<font>_<instrument>_<note>.mp3`
+
+For example: `fluidr3_gm_violin_C4.mp3`
+
+Some prepacked libraries can be [found here](https://github.com/ShavaShav/react-native-soundfonts).
 
 ## To Do
 - iOS support

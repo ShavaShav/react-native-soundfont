@@ -1,32 +1,25 @@
 import allSettled from 'promise.allsettled';
 import Sound from 'react-native-sound';
 
-import Font, {getInstrumentNames} from './font';
 import Player from './Player';
 
 // List of possible notes for soundfonts
 const _notes = [ 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G' ];
-const _notesWithOctaves = [];
+const _notesWithOctaves = [ 'A0', 'Bb0', 'B0' ]; // A0, Bb0 and B0 are the only 0-octave notes with samples
 _notes.forEach(note => {
-  if (note === 'A' || note === 'Bb' || note === 'B')
-    _notesWithOctaves.push(`${note}0`); // A0, Bb0 and B0 are the only 0-octave notes with samples
   for (let octave = 1; octave < 8; octave++) {
     _notesWithOctaves.push(`${note}${octave}`);
   }
 });
 
-// Default to Fluid's piano with sensible options
-const defaultFont = Font.Fluid;
-const defaultInstrument = 'acoustic_grand_piano';
 const defaultInstrumentOptions = Object.freeze({
-  font: defaultFont,
   notes: _notesWithOctaves
 });
 
 Sound.setCategory('Playback');
 
 // This function is outside of 'Player' so as to not be exposed
-const loadSound = (sounds, font = defaultFont, instrument = defaultInstrument, name) => {
+const loadSound = (sounds, font, instrument, name) => {
   return new Promise((resolve, reject) => {
     // 'new Sound' is very expensive and blocks resolve. Wrapping in setTimeout(cb, 0) allows renders in between
     setTimeout(() => {
@@ -45,16 +38,15 @@ const loadSound = (sounds, font = defaultFont, instrument = defaultInstrument, n
 };
 
 export default {
-  Font,
-  getInstrumentNames: (font = defaultFont) => {
-    return getInstrumentNames(font);
-  },
-  instrument: (name = defaultInstrument, options = defaultInstrumentOptions) => {
+  instrument: (font, instrument, options = defaultInstrumentOptions) => {
+    if (!font) return Promise.reject('instrument() requires font name as 1st argument.');
+    if (!instrument) return Promise.reject('instrument() requires instrument name as 2nd argument.');
+
     const sounds = {};
-    const { font, notes, ...playerOptions } = options; 
+    const { notes, ...playerOptions } = options; 
     return allSettled(
-      notes.map(note => loadSound(sounds, font, name, note))
-    ).then(() => new Player(name, sounds, playerOptions));
+      notes.map(note => loadSound(sounds, font, instrument, note))
+    ).then(() => new Player(instrument, sounds, playerOptions));
   },
 };
 
