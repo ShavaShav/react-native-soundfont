@@ -38,12 +38,12 @@ const loadSound = (sounds, font, instrument, name) => {
 };
 
 export default {
-  instrument: (font, instrument, options = defaultInstrumentOptions) => {
+  instrument: (font, instrument, options) => {
     if (!font) return Promise.reject('instrument() requires font name as 1st argument.');
     if (!instrument) return Promise.reject('instrument() requires instrument name as 2nd argument.');
-
-    const sounds = {};
+    options = { ...defaultInstrumentOptions, ...options };
     const { notes, ...playerOptions } = options; 
+    const sounds = {};
     return allSettled(
       notes.map(note => loadSound(sounds, font, instrument, note))
     ).then(() => new Player(instrument, sounds, playerOptions));

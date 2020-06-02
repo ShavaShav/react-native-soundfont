@@ -24,7 +24,7 @@ SoundFont.instrument('fluidr3_gm', 'violin', {
 ...
 ```
 
-`instrument(font, instrument, options)`, `play(note, options)` and `start(note, when, options)` all take the following possible `options` as their last argument:
+`instrument(font, instrument, options)`, `play(note, options)`, `start(note, when, options)`, and `stop(note, when, options)` all take the following possible `options` as their last argument:
 ```javascript
 {
   gain: 1, // (volume)
@@ -33,6 +33,7 @@ SoundFont.instrument('fluidr3_gm', 'violin', {
   loop: false, // loop sound while key is pressed
   pan: 0.5, // left (0) to right (1)
   speed: 1 // speed of playback
+  release: undefined, // time taken for the level to decay to zero after key is released (or undefined to play rest of sound)
 }
 ```
 
@@ -48,6 +49,5 @@ Some prepacked libraries can be [found here](https://github.com/ShavaShav/react-
 
 ## To Do
 - iOS support
-- Implement attack/release options
-- Impement decay/sustain options (?)
-- Custom sound fonts (mp3 libs, sfz or midi.js?)
+- Implement an artifical sound envelope?
+- ~~Custom sound fonts (mp3 libs, sfz or midi.js?)~~

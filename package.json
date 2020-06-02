@@ -1,7 +1,7 @@
 {
   "name": "react-native-soundfont",
   "title": "React Native Soundfont Player",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "A simple soundfont player for React Native",
   "main": "index.js",
   "scripts": {
