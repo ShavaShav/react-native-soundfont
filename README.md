@@ -12,9 +12,10 @@
 import SoundFont from 'react-native-soundfont';
 
 ...
-SoundFont.instrument('fluidr3_gm', 'violin', {
+SoundFont.instrument('violin', {
   notes: ['C4', 'A3'] // only load 'C4' and 'A3' for speed
   gain: 1,
+  release: 0.5 // release after half second
 }).then(violin => {
   violin.play('C4', {gain: 0.5}); // Play 'C4' immediately at half gain
   violen.start('A3', 1000); // Start 'A3' after a second
@@ -24,7 +25,7 @@ SoundFont.instrument('fluidr3_gm', 'violin', {
 ...
 ```
 
-`instrument(font, instrument, options)`, `play(note, options)`, `start(note, when, options)`, and `stop(note, when, options)` all take the following possible `options` as their last argument:
+`instrument(instrument, options)`, `play(note, options)`, `start(note, when, options)`, and `stop(note, when, options)` all take the following possible `options` as their last argument:
 ```javascript
 {
   gain: 1, // (volume)
@@ -39,11 +40,20 @@ SoundFont.instrument('fluidr3_gm', 'violin', {
 
 ### Installing fonts
 
-MP3 sounds should be placed in `android/app/src/main/res/raw`, with filenames in the format:
+By default, MP3 sounds will be loaded from `android/app/src/main/res/raw`. You may specify a different directory using the `path` option for `intrument()`:
 
-`<font>_<instrument>_<note>.mp3`
+ex: Load from the "Document" directory (using react-native-sound path macros for convenience)
+```
+import Sound from 'react-native-sound';
+...
+Soundfont.instrument('acoustic_piano` { path: Sound.DOCUMENT });
+```
 
-For example: `fluidr3_gm_violin_C4.mp3`
+MP3 filenames must be in the format:
+
+`<instrument>_<note>.mp3`
+
+For example: `violin_C4.mp3`
 
 Some prepacked libraries can be [found here](https://github.com/ShavaShav/react-native-soundfonts).
 
