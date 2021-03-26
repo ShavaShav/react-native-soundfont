@@ -110,7 +110,7 @@ export default class Player {
 
   // Same as start(), without the time
   play(note, options) {
-    this.start(note, undefined, options);
+    return this.start(note, undefined, options);
   }
 
   start(note, when = 0, options) {

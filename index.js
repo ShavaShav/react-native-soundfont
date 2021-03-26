@@ -14,17 +14,18 @@ _notes.forEach(note => {
 
 const defaultInstrumentOptions = Object.freeze({
   notes: _notesWithOctaves,
-  path: Sound.MAIN_BUNDLE // defaults to res/raw
+  path: Sound.MAIN_BUNDLE, // defaults to res/raw
+  ext: 'mp3'
 });
 
 Sound.setCategory('Playback');
 
 // This function is outside of 'Player' so as to not be exposed
-const loadSound = (sounds, instrument, name, path) => {
+const loadSound = (sounds, instrument, name, path, ext) => {
   return new Promise((resolve, reject) => {
     // 'new Sound' is very expensive and blocks resolve. Wrapping in setTimeout(cb, 0) allows renders in between
     setTimeout(() => {
-      sounds[name] = new Sound(`${instrument}_${name.toLowerCase()}.mp3`, path, error => {
+      sounds[name] = new Sound(`${instrument}_${name.toLowerCase()}.${ext}`, path, error => {
         if (error) {
           if (__DEV__) {
             console.warn(`Failed to load "${name}" (${instrument}) from "${path}": ${JSON.stringify(error)}`);
@@ -42,10 +43,10 @@ export default {
   instrument: (instrument, options) => {
     if (!instrument) return Promise.reject('instrument() requires instrument name as first argument.');
     options = { ...defaultInstrumentOptions, ...options };
-    const { notes, path, ...playerOptions } = options; 
+    const { notes, path, ext, ...playerOptions } = options; 
     const sounds = {};
     return allSettled(
-      notes.map(note => loadSound(sounds, instrument, note, path))
+      notes.map(note => loadSound(sounds, instrument, note, path, ext))
     ).then(() => new Player(instrument, sounds, playerOptions));
   },
 };
